@@ -3,14 +3,15 @@ package batalhao;
 class Soldado{
     private String nome;
     private int posicao;
-    private static int totalSoldados = 0;
+    private static int quantidadeSoldados = 0;
     private static final int DISTANCIA = 2; 
+    private static final int TAMANHO_EXERCITO = 2; 
     private static final String ARMA = "fuzil";
 
     public Soldado(String nome){
         this.nome = nome;
         this.posicao = 0;
-        this.totalSoldados++;
+        this.quantidadeSoldados++;
     }
     
     //nome pode consultar e alterar, get e set
@@ -18,35 +19,46 @@ class Soldado{
         return nome;
     }
 
-    public void setNome(){
-        this.nome = nome;
-    }
-
     public int getPosicao(){
         return posicao;
     }
 
+    public static int getQuantidadeSoldados() {
+        return quantidadeSoldados;
+    }
+
+    //sobrecarga de movimentar    
     public void movimentar(int distancia){
-        if (distancia <= 0 || distancia == NULL){ //ver condicao 
-            distancia = DISTANCIA;
-        } else{
-            System.out.println(this.nome + "percorreu " + distancia + " metros");
-        }
+        this.posicao += distancia;
+        System.out.println("o soldado " + this.nome + " encontra-se na posicao " + this.posicao);
+     }
+
+    public void movimentar(){
+       this.posicao += this.DISTANCIA;
+       System.out.println("o soldado " + this.nome + " encontra-se na posicao " + this.posicao);
     }
 
     public void atacar(String arma){
-        if (totalSoldados < 3){ //3 soldados para testar
-            System.out.println("ainda nao, esperando o exercito ficar miaor! \nTemos " + totalSoldados + ", precisamos de no minimo 10 soldados!");
-        }else{
-            if(arma.isEmpty() || arma == NULL){
-                arma = ARMA;
-            }else{
-                System.out.println(this.nome + "esta atacando com " + arma);
-            }
+        if(this.exercitoPronto()){
+            System.out.println(this.nome + "esta atacando com " + arma);
+        } else{
+            System.out.println("o exercito ainda nao esta pronto! ");
         }
     }
 
-    //public void movimentar
-    //atacar
-    //gets e sets
+    public void atacar(){
+        if(this.exercitoPronto()){
+            System.out.println(this.nome + "esta atacando com " + this.ARMA);
+        } else{
+            System.out.println("o exercito ainda nao esta pronto! Apenas " + this.getQuantidadeSoldados() + " soldados.");
+        }
+    }
+
+    private boolean exercitoPronto(){
+        if (this.getQuantidadeSoldados() >= TAMANHO_EXERCITO){
+            return true;
+        } else{
+            return false;
+        }
+    }
 }
